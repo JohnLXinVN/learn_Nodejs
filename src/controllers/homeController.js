@@ -1,4 +1,4 @@
-import { createNewUser } from "../services/CRUDservices";
+import { createNewUser, getAllUsers } from "../services/CRUDservices";
 
 const db = require("../models")
 
@@ -24,4 +24,13 @@ export const postCrudPage = async (req, res) => {
     const message = await createNewUser(req.body)
     console.log(message)
     return res.send("post crud page done serverS")
+}
+
+export const displayCrud = async (req, res) => {
+   const data = await getAllUsers()
+   console.log("------------------------------")
+   console.log(data)
+   console.log("------------------------------")
+
+    return res.render('crudTable.ejs', {data})
 }
