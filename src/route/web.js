@@ -1,8 +1,11 @@
-import express from 'express';
-import { getHomePage } from '../controllers/homeController';
-const router = express.Router()
+import express from "express";
+import { crudPage, getHomePage, postCrudPage } from "../controllers/homeController";
+const router = express.Router();
 
 export const initWebRoutes = (app) => {
-    router.get('/', getHomePage)
-    return app.get("", router);
-}
+  router.get("/", getHomePage);
+  router.get("/crud", crudPage);
+  router.post('/post-crud', postCrudPage);
+
+  return app.use("/", router);
+};
