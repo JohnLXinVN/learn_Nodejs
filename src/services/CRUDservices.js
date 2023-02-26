@@ -1,5 +1,6 @@
 import bcrypt from "bcryptjs";
 import db from "../models";
+
 const salt = bcrypt.genSaltSync(10);
 
 let hashUserPassword = (password) => {
@@ -48,3 +49,53 @@ export const getAllUsers = async () => {
         }
     })
 };
+
+export const getInfoUser = async (dataID) => {
+    return new Promise( async (resolve, reject) => {
+      try {
+        let user = await db.User.findOne({ where: { id: dataID } ,  raw: true })
+        resolve(user);
+      } catch (error) {
+        reject(error);
+      }
+    })
+}
+
+export const updateCrudUser = async (data) => {
+  return new Promise( async (resolve, reject) => {
+    try {
+      let user = await db.User.findOne({ where: {id: Math.floor(data.id)}, raw: true })
+      console.log("usser action: ",user)
+
+      if(user) {
+        
+        user.email = data.email;
+        user.firstName = data.firstName;
+        user.lastName = data.lastName;
+        user.phoneNumber = data.phoneNumber;
+        user.address = data.address;
+        user.gender = data.gender;
+        user.roleId = data.roleId;
+
+        await db.User.update(user,  {where: {id: data.id}})
+        resolve();
+      }
+      else {
+        resolve();
+      }
+    } catch (error) {
+      reject(error);
+    }
+  })
+}
+
+export const deleteCrudUser = async (id) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      await db.User.destroy({where: {id: id}})
+      resolve();
+    } catch (error) {
+      reject(error);
+    }
+  })
+}
