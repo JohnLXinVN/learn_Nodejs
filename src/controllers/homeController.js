@@ -60,3 +60,7 @@ export const deleteCrudPage = async (req, res) => {
     await deleteCrudUser(id);
     return res.send("Delete done")
 }
+
+export const loginPage = async (req, res) => {
+    return res.render("login.ejs")
+}
